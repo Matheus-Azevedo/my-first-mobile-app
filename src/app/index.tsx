@@ -4,11 +4,15 @@ import Button from "@/components/button"; // ajuste o caminho se necessário
 import Input from "@/components/input"; // ajuste o caminho se necessário
 import { useRouter } from "expo-router";
 import { useUser } from "@/context/UserContext";
+import { useUserStore } from "@/store/userStore";
 
 export default function Index() {
   const [text, setText] = useState("");
   const { userName, setUserName } = useUser();
   const router = useRouter();
+
+  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
 
   function showAlert() {
     Alert.alert("Hello", `You typed: ${text}`);
@@ -23,6 +27,14 @@ export default function Index() {
         onChangeText={setUserName}
         value={userName || ""}
       />
+      <Input
+        placeholder="Set User here with zustand..."
+        onChangeText={(name) => setUser({ id: Date.now().toString(), name })}
+        value={user?.name || ""}
+      />
+      <Text style={styles.text}>
+        User Name and Id with zustand: {user?.name} - {user?.id}
+      </Text>
       <Button title="Show Alert" onPress={showAlert} />
       <Button title="About" onPress={() => router.push("/about")} />
       <Button title="Register" onPress={() => router.push("/users/register")} />
