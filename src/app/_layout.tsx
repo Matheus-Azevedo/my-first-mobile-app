@@ -1,11 +1,14 @@
 import { Slot } from "expo-router";
 import { View, SafeAreaView, StyleSheet } from "react-native";
+import { UserProvider } from "@/context/UserContext";
 
 export default function Layout() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Slot />
+        <UserProvider>
+          <Slot />
+        </UserProvider>
       </View>
     </SafeAreaView>
   );
